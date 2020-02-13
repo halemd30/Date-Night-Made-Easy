@@ -7,6 +7,7 @@ const zomatoApiKey = "bdf061b7ff13160c0b5ed3be06170ae7";
 const zomatoUrl = "https://developers.zomato.com/api/v2.1";
 
 // Function to generate types of cuisines on field dropdown
+
 const cuisineOptions = {
     0: "Anything!",
     3: "Asian", //3
@@ -52,10 +53,11 @@ function getEntityID(userCity) {
 
     fetch(url, options)
         .then(response => {
-        if (response.ok) {
-            return response.json();
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(response.statusText);
             }
-            throw new Error(response.statusText);
             }) 
             .then(responseJson => {
                 getRestaurants(responseJson.location_suggestions[0].entity_id)
@@ -63,7 +65,7 @@ function getEntityID(userCity) {
                 console.log(responseJson.location_suggestions[0].entity_id);
             })
             .catch(err => {
-                $('#js-error-message').text(`Uh oh, something broke: ${err.message}`);
+                $('#jsErrorMsg').append('<p>Not a valid city</p>');
                 console.log(err);
     });    
 }
@@ -91,11 +93,15 @@ function getRestaurants(entity_id) {
     const url = zomatoUrl + '/search?' + queryString;
     console.log(queryString);
 
-    fetch(url, options).then(response => {
+    fetch(url, options)
+        .then(response => {
             if (response.ok) {
-                return response.json();
-            }
+                
+            return response.json();
+            } else {
             throw new Error(response.statusText);
+            }
+            
         })
         .then(responseJson =>{
             displayRestaurants(responseJson)
@@ -106,14 +112,14 @@ function getRestaurants(entity_id) {
         //    resp displayRestaurants(responseJson))
         //})    
         .catch(err => {
-            $('#js-error-message').text(`Something Failed ${err.message}`);
+            $('#jsErrorMsg').text(`Something Failed ${err.message}`);
         })
 }
 
 function displayRestaurants(responseJson) {
     console.log(responseJson);
     $('#results').empty();
-    const budget = $('#js-budget').val();
+    const budget = $('#budget').val();
 
     let randomNum = Math.floor(Math.random(responseJson.restaurants.length) * 5) + 1;
     console.log(randomNum);
@@ -165,8 +171,8 @@ function clickAccordion() {
 function watchForm() {
     $('form').submit(event => {
       event.preventDefault();
-      const userCity = $('#js-city').val();
-      const budget = $('#js-budget').val();
+      const userCity = $('#city').val();
+      const budget = $('#budget').val();
       let cuisine = $('#js-cuisineList').val();
       console.log(cuisine);
       console.log(userCity);
@@ -180,23 +186,3 @@ function watchForm() {
   }
 
   $(main);
-
-
-
-// Function to generate restaurants 
-// using city id variable
-
-
-// Display Results 
-// filter by "average_cost_for_two" <= budget
-// return featured image 
-// restaurant name (include link with name)
-// address
-// phone number
-// average_cost_for_two
-// menu url 
-// aggregate rating 
-
-
-
-// Watch form event listener 

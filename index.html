@@ -19,9 +19,10 @@
 
         <form id="js-form">
             <label for="city">Name a city to dine in:</label>
-            <input type="text" id="js-city" name="city" placeholder="City" required><br> 
+            <input type="text" id="city" name="city" placeholder="City" required><br>
+            <div id="jsErrorMsg" class="hidden"></div> 
             <label for="budget">What's Your Budget for Two?</label>
-            <input type="number" name="budget" id="js-budget" max="5000" min="10" placeholder="$" required><br>
+            <input type="number" name="budget" id="budget" max="5000" min="10" placeholder="$" required><br>
             <div class="dropdown">
                 <label for="cuisine">What's your fix?</label><br>
                 <select id="js-cuisineList">
@@ -31,8 +32,6 @@
             <br>
             <button type="submit" id="submitButton">Date Time!</button>
         </form>
-
-        <p id="jsErrorMsg" class="errorMsg"></p>
 
         <section id="results" class="hidden">
             <ul id="resultsList">

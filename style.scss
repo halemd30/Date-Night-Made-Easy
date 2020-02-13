@@ -48,12 +48,24 @@ form {
         border: none;
     }
 
-    #js-city {
+    #city {
         //width: 50%;
         width: 60%;
     }
 
-    #js-budget {
+    // #jsErrorMsg {
+    //     border: 1px solid red;
+    //     padding: 8px;
+    //     overflow: hidden;
+    //     position: relative;
+    //     display: block;
+    // }
+
+    // .hidden {
+    //     display: none !important;
+    // }
+
+    #budget {
         width: 20%;
     }
 

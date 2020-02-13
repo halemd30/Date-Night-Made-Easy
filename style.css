@@ -45,11 +45,11 @@ form input, form select {
   border: none;
 }
 
-form #js-city {
+form #city {
   width: 60%;
 }
 
-form #js-budget {
+form #budget {
   width: 20%;
 }
 
