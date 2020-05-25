@@ -49,6 +49,23 @@ form #city {
   width: 60%;
 }
 
+form .jsErrorMsg {
+  border: 1px solid red;
+  padding: 8px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  color: red;
+}
+
+form #jsErrorMsg {
+  border: 1px solid red;
+  padding: 8px;
+  overflow: hidden;
+  position: relative;
+  display: block;
+}
+
 form #budget {
   width: 20%;
 }

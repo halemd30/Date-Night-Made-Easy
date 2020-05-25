@@ -53,13 +53,22 @@ form {
         width: 60%;
     }
 
-    // #jsErrorMsg {
-    //     border: 1px solid red;
-    //     padding: 8px;
-    //     overflow: hidden;
-    //     position: relative;
-    //     display: block;
-    // }
+    .jsErrorMsg {
+        border: 1px solid red;
+        padding: 8px;
+        overflow: hidden;
+        position: relative;
+        display: block;
+        color: red;
+    }
+
+    #jsErrorMsg {
+        border: 1px solid red;
+        padding: 8px;
+        overflow: hidden;
+        position: relative;
+        display: block;
+    }
 
     // .hidden {
     //     display: none !important;

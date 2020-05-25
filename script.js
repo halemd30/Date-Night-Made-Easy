@@ -9,125 +9,121 @@ const zomatoUrl = "https://developers.zomato.com/api/v2.1";
 // Function to generate types of cuisines on field dropdown
 
 const cuisineOptions = {
-    0: "Anything!",
-    3: "Asian", //3
-    159: "Brazilian", //159
-    100: "Desserts", //100
-    268: "Drinks", //268
-    55: "Italian", //55
-    45: "French", //45
-    143: "Healthy Food", //143
-    148: "Indian", //148
-    70: "Mediterranean", //70
-    73: "Mexican", //73
-    996: "New American", //996
-    471: "Southern", //471
-    177: "Sushi", //177
-    95: "Thai", //95
-    308: "Vegetarian", //308
-}
+  0: "Anything!",
+  3: "Asian", //3
+  159: "Brazilian", //159
+  100: "Desserts", //100
+  268: "Drinks", //268
+  55: "Italian", //55
+  45: "French", //45
+  143: "Healthy Food", //143
+  148: "Indian", //148
+  70: "Mediterranean", //70
+  73: "Mexican", //73
+  996: "New American", //996
+  471: "Southern", //471
+  177: "Sushi", //177
+  95: "Thai", //95
+  308: "Vegetarian", //308
+};
 
 let cuisineList = $("#js-cuisineList");
-$.each(cuisineOptions, function(val, text) {
-    cuisineList.append(
-        $('<option></option>').val(val).html(text)
-    );
+$.each(cuisineOptions, function (val, text) {
+  cuisineList.append($("<option></option>").val(val).html(text));
 });
 
 // Function to generate entity_id for the user's city using /locations? endpoint
 function getEntityID(userCity) {
-    const options = {
-        headers: new Headers({
-            'user-key': zomatoApiKey
-        })
-    };
+  const options = {
+    headers: new Headers({
+      "user-key": zomatoApiKey,
+    }),
+  };
 
-    const params = {
-        query: userCity
-    };
+  const params = {
+    query: userCity,
+  };
 
-    let queryString = $.param(params);
-    const url = zomatoUrl + '/locations?' + queryString;
+  let queryString = $.param(params);
+  const url = zomatoUrl + "/locations?" + queryString;
 
-    console.log(`Finding location id for ${userCity}`);
+  console.log(`Finding location id for ${userCity}`);
 
-    fetch(url, options)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(response.statusText);
-            }
-            }) 
-            .then(responseJson => {
-                getRestaurants(responseJson.location_suggestions[0].entity_id)
-                console.log(responseJson);
-                console.log(responseJson.location_suggestions[0].entity_id);
-            })
-            .catch(err => {
-                $('#jsErrorMsg').append('<p>Not a valid city</p>');
-                console.log(err);
-    });    
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((responseJson) => {
+      getRestaurants(responseJson.location_suggestions[0].entity_id);
+      console.log(responseJson);
+      console.log(responseJson.location_suggestions[0].entity_id);
+    })
+    .catch((err) => {
+      console.log('getEntityId error', err);
+      $("#jsErrorMsg").append('<p class="jsErrorMsg">Not a valid city</p>');
+    });
 }
 
 // Generate restaurants based on the location the user entered using the entity_id generated from getEntityID()
 // https://developers.zomato.com/api/v2.1/search?entity_id=305&entity_type=city
 
 function getRestaurants(entity_id) {
-    const options = {
-        headers: new Headers({
-            'user-key': zomatoApiKey
-        })
-    };
+  const options = {
+    headers: new Headers({
+      "user-key": zomatoApiKey,
+    }),
+  };
 
-    const params = {
-        entity_id: entity_id,
-        entity_type: "city",
-        count: 15,
-        sort: "rating",
-        order: "desc",
-        cuisines: $('#js-cuisineList').val()
-    };
+  const params = {
+    entity_id: entity_id,
+    entity_type: "city",
+    count: 15,
+    sort: "rating",
+    order: "desc",
+    cuisines: $("#js-cuisineList").val(),
+  };
 
-    let queryString = $.param(params);
-    const url = zomatoUrl + '/search?' + queryString;
-    console.log(queryString);
+  let queryString = $.param(params);
+  const url = zomatoUrl + "/search?" + queryString;
+  console.log(queryString);
 
-    fetch(url, options)
-        .then(response => {
-            if (response.ok) {
-                
-            return response.json();
-            } else {
-            throw new Error(response.statusText);
-            }
-            
-        })
-        .then(responseJson =>{
-            displayRestaurants(responseJson)
-            console.log(responseJson);
-        }) 
-        // .then(responseJson => {
-        //     console.log(responseJson);
-        //    resp displayRestaurants(responseJson))
-        //})    
-        .catch(err => {
-            $('#jsErrorMsg').text(`Something Failed ${err.message}`);
-        })
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((responseJson) => {
+      displayRestaurants(responseJson);
+      console.log("display restaurants", responseJson);
+    })
+    .catch((err) => {
+      $("#jsErrorMsg").text(`Something Failed ${err.message}`);
+    });
 }
 
 function displayRestaurants(responseJson) {
-    console.log(responseJson);
-    $('#results').empty();
-    const budget = $('#budget').val();
+  console.log(responseJson);
+  $("#results").empty();
+  const budget = $("#budget").val();
 
-    let randomNum = Math.floor(Math.random(responseJson.restaurants.length) * 5) + 1;
-    console.log(randomNum);
+  let randomNum =
+    Math.floor(Math.random(responseJson.restaurants.length) * 5) + 1;
+  console.log(randomNum);
 
-    for (let i = randomNum; i < responseJson.restaurants.length; i++) {
-        let  restaurantsJson = responseJson.restaurants[i].restaurant;
-        if (restaurantsJson.average_cost_for_two <= budget && restaurantsJson.user_rating.aggregate_rating > 0) {
-        $('#results').append(
+  for (let i = randomNum; i < responseJson.restaurants.length; i++) {
+    let restaurantsJson = responseJson.restaurants[i].restaurant;
+    if (
+      restaurantsJson.average_cost_for_two <= budget &&
+      restaurantsJson.user_rating.aggregate_rating > 0
+    ) {
+      $("#results").append(
         `<li>
             <button class="accordion">
                 ${responseJson.restaurants[i].restaurant.name}
@@ -152,37 +148,37 @@ function displayRestaurants(responseJson) {
                     <p class="cost"><em>Average Cost for 2:</em> <span>$${restaurantsJson.average_cost_for_two}</span></p>
                 </div>
             </div>
-        </li>`)
-        }
-    };
+        </li>`
+      );
+    }
+  }
 
-    $('#results').removeClass("hidden");
+  $("#results").removeClass("hidden");
 }
 
 function clickAccordion() {
-    $('body').on('click', '.accordion', function(e) {
-        //console.log(e.target);
-        const button = $(e.target);
-        button.siblings('.panel').toggleClass('hidden');
-        
-    });
+  $("body").on("click", ".accordion", function (e) {
+    //console.log(e.target);
+    const button = $(e.target);
+    button.siblings(".panel").toggleClass("hidden");
+  });
 }
 
 function watchForm() {
-    $('form').submit(event => {
-      event.preventDefault();
-      const userCity = $('#city').val();
-      const budget = $('#budget').val();
-      let cuisine = $('#js-cuisineList').val();
-      console.log(cuisine);
-      console.log(userCity);
-      getEntityID(userCity);
-    })
-  }
+  $("form").submit((event) => {
+    event.preventDefault();
+    const userCity = $("#city").val();
+    const budget = $("#budget").val();
+    let cuisine = $("#js-cuisineList").val();
+    console.log(cuisine);
+    console.log(userCity);
+    getEntityID(userCity);
+  });
+}
 
-  function main() {
-      watchForm();
-      clickAccordion();
-  }
+function main() {
+  watchForm();
+  clickAccordion();
+}
 
-  $(main);
+$(main);
