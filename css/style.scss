@@ -55,24 +55,20 @@ form {
 
     .jsErrorMsg {
         border: 1px solid red;
+        border-radius: 5px;
         padding: 8px;
         overflow: hidden;
         position: relative;
         display: block;
         color: red;
+        margin-top: 0px;
     }
 
-    #jsErrorMsg {
-        border: 1px solid red;
-        padding: 8px;
+    #jsErrorMsg {;
         overflow: hidden;
         position: relative;
         display: block;
     }
-
-    // .hidden {
-    //     display: none !important;
-    // }
 
     #budget {
         width: 20%;

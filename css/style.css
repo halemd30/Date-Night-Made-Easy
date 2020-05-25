@@ -51,16 +51,16 @@ form #city {
 
 form .jsErrorMsg {
   border: 1px solid red;
+  border-radius: 5px;
   padding: 8px;
   overflow: hidden;
   position: relative;
   display: block;
   color: red;
+  margin-top: 0px;
 }
 
 form #jsErrorMsg {
-  border: 1px solid red;
-  padding: 8px;
   overflow: hidden;
   position: relative;
   display: block;
