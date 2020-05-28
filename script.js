@@ -49,6 +49,8 @@ function getEntityID(userCity) {
 
   console.log(`Finding location id for ${userCity}`);
 
+  $("#jsErrorMsg").html('');
+
   fetch(url, options)
     .then((response) => {
       if (response.ok) {
@@ -64,7 +66,7 @@ function getEntityID(userCity) {
     })
     .catch((err) => {
       console.log('getEntityId error', err);
-      $("#jsErrorMsg").append('<p class="jsErrorMsg">Not a valid city</p>');
+      $("#jsErrorMsg").html('<p class="jsErrorMsg">Not a valid city</p>');
     });
 }
 
@@ -176,9 +178,9 @@ function watchForm() {
   });
 }
 
-function main() {
+function initApp() {
   watchForm();
   clickAccordion();
 }
 
-$(main);
+$(initApp);
