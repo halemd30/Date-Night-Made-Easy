@@ -47,9 +47,7 @@ function getEntityID(userCity) {
   let queryString = $.param(params);
   const url = zomatoUrl + "/locations?" + queryString;
 
-  console.log(`Finding location id for ${userCity}`);
-
-  $("#jsErrorMsg").html('');
+  $("#jsErrorMsg").html("");
 
   fetch(url, options)
     .then((response) => {
@@ -61,11 +59,8 @@ function getEntityID(userCity) {
     })
     .then((responseJson) => {
       getRestaurants(responseJson.location_suggestions[0].entity_id);
-      console.log(responseJson);
-      console.log(responseJson.location_suggestions[0].entity_id);
     })
     .catch((err) => {
-      console.log('getEntityId error', err);
       $("#jsErrorMsg").html('<p class="jsErrorMsg">Not a valid city</p>');
     });
 }
@@ -91,7 +86,6 @@ function getRestaurants(entity_id) {
 
   let queryString = $.param(params);
   const url = zomatoUrl + "/search?" + queryString;
-  console.log(queryString);
 
   fetch(url, options)
     .then((response) => {
@@ -103,7 +97,6 @@ function getRestaurants(entity_id) {
     })
     .then((responseJson) => {
       displayRestaurants(responseJson);
-      console.log("display restaurants", responseJson);
     })
     .catch((err) => {
       $("#jsErrorMsg").text(`Something Failed ${err.message}`);
@@ -111,13 +104,11 @@ function getRestaurants(entity_id) {
 }
 
 function displayRestaurants(responseJson) {
-  console.log(responseJson);
   $("#results").empty();
   const budget = $("#budget").val();
 
   let randomNum =
     Math.floor(Math.random(responseJson.restaurants.length) * 5) + 1;
-  console.log(randomNum);
 
   for (let i = randomNum; i < responseJson.restaurants.length; i++) {
     let restaurantsJson = responseJson.restaurants[i].restaurant;
@@ -160,7 +151,6 @@ function displayRestaurants(responseJson) {
 
 function clickAccordion() {
   $("body").on("click", ".accordion", function (e) {
-    //console.log(e.target);
     const button = $(e.target);
     button.siblings(".panel").toggleClass("hidden");
   });
@@ -169,11 +159,9 @@ function clickAccordion() {
 function watchForm() {
   $("form").submit((event) => {
     event.preventDefault();
-    const userCity = $("#city").val();
-    const budget = $("#budget").val();
+    const userCity = $("#js-city").val();
+    const budget = $("#js-budget").val();
     let cuisine = $("#js-cuisineList").val();
-    console.log(cuisine);
-    console.log(userCity);
     getEntityID(userCity);
   });
 }

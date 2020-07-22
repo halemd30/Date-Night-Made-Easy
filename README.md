@@ -17,7 +17,6 @@
   <li>See a list of our best restaurant choices for you!</li>
 </ul>
 
-
 <h2>Live Demo</h2>
 <a href="https://sasha-go.github.io/Date-Night-Made-Easy/">Demo Now!</a>
 
@@ -26,7 +25,6 @@
 
 <h4>Enter Your Location and Budget</h4>
 <img src="https://live.staticflickr.com/65535/49450412547_2b305b23d5_o.png" width="220" height="400" alt="Date Night Made Easy Enter Location">
-
 
 <h4>Restaurant Results</h4>
 <img src="images/restaurantResults.png" width="220" height="400" alt="Date Night Made Easy Results">
@@ -46,6 +44,6 @@
 
 <h2>Authors</h2>
 <ul>
-<li><a href="https://github.com/halemd30">Mac Hale<a/></li>
+<li><a href="https://github.com/halemd30">Mac Hale</a></li>
 <li><a href="https://github.com/sasha-go/">Sasha Garcia</a></li>
 </ul>
